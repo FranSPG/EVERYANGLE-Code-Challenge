@@ -27,6 +27,13 @@ def login_get(request: Request):
 
 @router.post("/login")
 async def login(request: Request, database: Session = Depends(db.get_db)):
+    """
+    POST /logn. It validates if the user exists and if the password is correct.
+    if everything is correct, it sets a cookie with the access token.
+    :param request: Request data.
+    :param database: Session of the database.
+    :return: redirects to the home endpoint with the session logged.
+    """
     form = await request.form()
     username = form.get('email')
     password = form.get('password')
@@ -45,6 +52,10 @@ async def login(request: Request, database: Session = Depends(db.get_db)):
 
 @router.get("/logout")
 async def logout():
+    """
+    It clears the cookie access token and return to the home with the user logged out.
+    :return: redirects to the home endpoint without any session logged.
+    """
     resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
     resp.delete_cookie(key="access_token")
     return resp

@@ -26,6 +26,12 @@ router.mount("/static", StaticFiles(directory="static"), name="static")
 
 @router.post('/update_media')
 async def update_media(request: Request, database: Session = Depends(db.get_db)):
+    """
+    Takes a media coming in the request form and updates the object in the database.
+    :param request: Update form.
+    :param database: Session of the database.
+    :return: Renders the home directory with the data updated.
+    """
     form = await request.form()
     await service.update_media(form, database)
     resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
@@ -34,6 +40,11 @@ async def update_media(request: Request, database: Session = Depends(db.get_db))
 
 @router.get('/update_media')
 async def update_media(request: Request):
+    """
+    It renders the update_media.html where all the fields are filled up with the data of a specific media.
+    :param request: data of the media.
+    :return: renders the template with the data of the media.
+    """
     data = literal_eval(request.cookies.get('data'))
     return templates.TemplateResponse("media/update_media.html",
                                       {"request": data})
@@ -41,6 +52,12 @@ async def update_media(request: Request):
 
 @router.post('/update_media_get_id')
 async def update_media_get_id(request: Request, database: Session = Depends(db.get_db)):
+    """
+    Takes the media id input from the user.
+    :param request: form that contains the media id.
+    :param database: Session of the database.
+    :return: Renders the update_media with the data of the media filled up.
+    """
     token = request.cookies.get("access_token")
     current_user: User = get_current_user(token)
     form = await request.form()
@@ -63,6 +80,12 @@ async def update_media_get(request: Request):
 
 @router.post('/delete_media')
 async def delete_media_get(request: Request, database: Session = Depends(db.get_db)):
+    """
+    Deletes a media given an id.
+    :param request: Form that contains a media id.
+    :param database: Session of the database.
+    :return: Redirects to the home with the data updated.
+    """
     token = request.cookies.get("access_token")
     current_user: User = get_current_user(token)
     form = await request.form()
@@ -97,6 +120,12 @@ async def create_game_get(request: Request):
 
 @router.post('/movies', status_code=status.HTTP_201_CREATED)
 async def create_movie(request: Request, database: Session = Depends(db.get_db)):
+    """
+    Creates a media and a movie object in the database.
+    :param request: Form with the media and movie data.
+    :param database: Session of the database.
+    :return: Redirects to the home page.
+    """
     token = request.cookies.get("access_token")
     current_user: User = get_current_user(token)
     form = await request.form()

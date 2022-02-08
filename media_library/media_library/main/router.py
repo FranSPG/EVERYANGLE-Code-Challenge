@@ -20,6 +20,12 @@ router.mount("/static", StaticFiles(directory="static"), name="static")
 
 @router.get("/")
 async def home(request: Request, database: Session = Depends(db.get_db)):
+    """
+    If there is a session, it gets all the data of that users and display it in the home page.
+    :param request: Request data.
+    :param database: Session of the database.
+    :return: Renders the home.html template.
+    """
     try:
         token = request.cookies.get("access_token")
         current_user: User = get_current_user(token)
