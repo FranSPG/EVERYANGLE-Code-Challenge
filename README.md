@@ -79,6 +79,7 @@ I think that I didn't use any interface. They are not common in Python 3. Probab
 
 
 ## Comment
+There are some comments. I recommend you to look at the redocs when the software is running.  
 
 
 ## Inheritance
