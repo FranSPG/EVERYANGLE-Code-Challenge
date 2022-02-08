@@ -1,0 +1,24 @@
+{% extends "media/create_media.html" %}
+
+
+{% block media_type %}
+
+<div class="mb-3">
+    <input type="text" required placeholder="movies" name="category_name" value="{{category_name}}"
+           class="form-control" disabled>
+</div>
+
+<div class="mb-3">
+    <input type="text" required placeholder="Main actor" name="main_actors" value="{{main_actors}}"
+           class="form-control" >
+</div>
+<div class="mb-3">
+    <input type="number" required placeholder="ID Imdb" name="id_imdb" value="{{id_imdb}}"
+           class="form-control" >
+</div>
+<div class="mb-3">
+    <input type="text" required placeholder="Production Company name" name="product_company_name" value="{{product_company_name}}"
+           class="form-control" >
+</div>
+
+{% endblock %}

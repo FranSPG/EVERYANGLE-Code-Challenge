@@ -13,61 +13,67 @@
             <h1 class="display-5">EVERYANGLE 24 Hours Code Challenge</h1>
         </div>
     </div>
+
     {% if current_user is not none %}
+    <div class="column">
     <h1>Movies: </h1>
     {% for movie in movies %}
-    <div class="row">
-        <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
-            <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{movie.name}}</h5>
-                    <p class="card-text">Created date : {{movie.created_date}}</p>
-                    <p class="card-text">Added date : {{movie.added_date}}</p>
-                    <p class="card-text">Description : {{movie.description}}</p>
-                    <p class="card-text">Category name : {{movie.category_name}}</p>
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
+                <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{movie.name}}</h5>
+                        <p class="card-text">Media ID : {{movie.id}}</p>
+                        <p class="card-text">Created date : {{movie.created_date}}</p>
+                        <p class="card-text">Added date : {{movie.added_date}}</p>
+                        <p class="card-text">Description : {{movie.description}}</p>
+                        <p class="card-text">Category name : {{movie.category_name}}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
+    </div>
+    <div class="column">
     <h1>Songs: </h1>
     {% for song in songs %}
-    <div class="row">
-        <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
-            <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{song.name}}</h5>
-                    <p class="card-text">Created date : {{song.created_date}}</p>
-                    <p class="card-text">Added date : {{song.added_date}}</p>
-                    <p class="card-text">Description : {{song.description}}</p>
-                    <p class="card-text">Category name : {{song.category_name}}</p>
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
+                <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{song.name}}</h5>
+                        <p class="card-text">Media ID : {{song.id}}</p>
+                        <p class="card-text">Created date : {{song.created_date}}</p>
+                        <p class="card-text">Added date : {{song.added_date}}</p>
+                        <p class="card-text">Description : {{song.description}}</p>
+                        <p class="card-text">Category name : {{song.category_name}}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
-    <h1>Games: </h1>
-    {% for game in games %}
-    <div class="row">
-        <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
-            <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{game.name}}</h5>
-                    <p class="card-text">Created date : {{game.created_date}}</p>
-                    <p class="card-text">Added date : {{game.added_date}}</p>
-                    <p class="card-text">Description : {{game.description}}</p>
-                    <p class="card-text">Category name : {{game.category_name}}</p>
+    </div>
+    <div class="column">
+        <h1>Games: </h1>
+        {% for game in games %}
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-10 mr-auto">
+                <div class="card shadow p-3 mb-2 bg-body rounded" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{game.name}}</h5>
+                        <p class="card-text">Media ID : {{game.id}}</p>
+                        <p class="card-text">Created date : {{game.created_date}}</p>
+                        <p class="card-text">Added date : {{game.added_date}}</p>
+                        <p class="card-text">Description : {{game.description}}</p>
+                        <p class="card-text">Category name : {{game.category_name}}</p>
+                    </div>
                 </div>
             </div>
+        {% endfor %}
         </div>
     </div>
-    {% endfor %}
     {% else %}
     <h2>Please, login or create a new account.</h2>
     {% endif %}
 </div><br>
-<div class="row">
-
-</div>
-</div>
 {% endblock %}

@@ -1,0 +1,34 @@
+{% extends "media/create_media.html" %}
+
+
+{% block media_type %}
+
+<div class="mb-3">
+    <input type="text" required placeholder="games" name="category_name" value="{{category_name}}"
+           class="form-control" disabled>
+</div>
+
+<div class="mb-3">
+    <input type="text" required placeholder="Platform" name="platform" value="{{platform}}"
+           class="form-control">
+</div>
+<div class="mb-3">
+    <input type="text" required placeholder="Publisher" name="publisher" value="{{publisher}}"
+           class="form-control">
+</div>
+<div class="mb-3">
+    <input type="text" required placeholder="Is free?" name="is_free" value="{{is_free}}"
+           class="form-control">
+</div>
+<div class="mb-3">
+    <input type="text" required placeholder="Game category" name="game_category" value="{{game_category}}"
+           class="form-control">
+</div>
+<div class="mb-3">
+    <input type="number" required placeholder="Estimated of playable content in minutes" name="est_playable_minutes"
+           value="{{est_playable_minutes}}"
+           class="form-control">
+</div>
+
+
+{% endblock %}

@@ -1,10 +1,20 @@
 from typing import List
 
-from fastapi import HTTPException, status
-
 from . import model
 from media_library.user.model import User
-from media_library.media.validator import verify_category_exist
+from media_library.auth.jwt import get_current_user
+
+
+async def delete_media(request, database, current_user):
+    token = request.cookies.get("access_token")
+    current_user: User = get_current_user(token)
+    user = database.query(User).filter(User.email == current_user.email).first()
+    media_id = request.get('media_id')
+    media = database.query(model.Media).filter(model.Media.id == media_id)
+    database.drop(media)
+    database.commit()
+    database.refresh(media)
+    return media
 
 
 async def create_new_media(request, database, current_user) -> model.Media:
