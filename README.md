@@ -55,4 +55,37 @@ Sadly, I couldn't finish the tests. They worked when I had only the back-end but
 # Required Techniques
 
 ## Array or List
-On the script 
+On the script [media_library/media_library/media/service.py](media_library/media_library/media/service.py) in the line 76 you can find a easy list comprehension.
+Also, on the script [media_library/media_library/media/validator.py](media_library/media_library/media/validator.py) there is a validation using a List.
+
+## Loop
+On the script [media_library/media_library/main/router.py](media_library/media_library/main/router.py) in the line 35 there are a few For loops.
+
+## Method
+Well, there are a lot of them in the code. But in every instantiation of any class I implicitly used the constructor method __init__.
+As you can see on the script [media_library/main.py](media_library/main.py) in the line 8.
+
+## Class
+Lot of classes everywhere.
+The models are an example. Script [media_library/media_library/media/model.py](media_library/media_library/media/model.py) line 9.
+
+## Interface
+I think that I didn't use any interface. They are not common in Python 3. Probably I'm using it implicitly without knowing in any of the libraries that I imported.
+
+## Encapsulation
+
+
+## Abstraction
+
+
+## Comment
+
+
+## Inheritance
+Every model inherit at least from a Base class from the DB.
+Reference: [media_library/media_library/user/model.py](media_library/media_library/user/model.py) line 9.
+
+
+## Polymorphism
+Every time that we use the built-in method len() we are using polymorphism.
+
