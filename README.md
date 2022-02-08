@@ -48,3 +48,11 @@ docker-compose up
 psql postgresql://fran:fran@localhost/media_library
 ```
 The credentials, users, databases are hardcoded. I runned out of time and I thought that maybe other functionalities where more important to finish.
+
+Sadly, I couldn't finish the tests. They worked when I had only the back-end but broke up when I added the templates and changed the requests and responses.
+
+
+# Required Techniques
+
+## Array or List
+On the script 
