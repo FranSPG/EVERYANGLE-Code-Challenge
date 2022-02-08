@@ -23,6 +23,39 @@ templates = Jinja2Templates(directory="static/templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+# @router.post('/update_media')
+# async def delete_media_get(request: Request, database: Session = Depends(db.get_db)):
+#     token = request.cookies.get("access_token")
+#     current_user: User = get_current_user(token)
+#     form = await request.form()
+#     await service.delete_media(form, database)
+#     resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
+#     return resp
+#
+#
+# @router.get('/update_media')
+# async def delete_media_get(request: Request):
+#     return templates.TemplateResponse("media/delete_media.html",
+#                                       {"request": request})
+
+
+
+@router.post('/delete_media')
+async def delete_media_get(request: Request, database: Session = Depends(db.get_db)):
+    token = request.cookies.get("access_token")
+    current_user: User = get_current_user(token)
+    form = await request.form()
+    await service.delete_media(form, database)
+    resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
+    return resp
+
+
+@router.get('/delete_media')
+async def delete_media_get(request: Request):
+    return templates.TemplateResponse("media/delete_media.html",
+                                      {"request": request})
+
+
 @router.get('/movies')
 async def create_movie_get(request: Request):
     return templates.TemplateResponse("media/create_movie.html",

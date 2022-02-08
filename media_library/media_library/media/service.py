@@ -5,15 +5,10 @@ from media_library.user.model import User
 from media_library.auth.jwt import get_current_user
 
 
-async def delete_media(request, database, current_user):
-    token = request.cookies.get("access_token")
-    current_user: User = get_current_user(token)
-    user = database.query(User).filter(User.email == current_user.email).first()
-    media_id = request.get('media_id')
-    media = database.query(model.Media).filter(model.Media.id == media_id)
-    database.drop(media)
+async def delete_media(form, database):
+    media_id = form.get('media_id')
+    media = database.query(model.Media).filter(model.Media.id == media_id).delete()
     database.commit()
-    database.refresh(media)
     return media
 
 
