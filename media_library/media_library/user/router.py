@@ -27,6 +27,7 @@ def register_get(request: Request):
     return templates.TemplateResponse("auth/signup.html",
                                       {"request": request})
 
+
 @router.post("/register")
 async def signup(request: Request, database: Session = Depends(db.get_db)):
     form = await request.form()
