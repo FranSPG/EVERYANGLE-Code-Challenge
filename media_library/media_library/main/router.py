@@ -26,9 +26,7 @@ async def home(request: Request, database: Session = Depends(db.get_db)):
         movies = await get_all_movies(database, current_user)
         songs = await get_all_songs(database, current_user)
         games = await get_all_games(database, current_user)
-    except Exception as e:
-
-        print(e)
+    except:
         current_user = None
         movies = []
         songs = []

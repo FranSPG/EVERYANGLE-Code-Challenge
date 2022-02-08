@@ -6,16 +6,6 @@ from sqlalchemy.orm import relationship
 from media_library.db import Base
 
 
-# class Category(Base):
-#     __tablename__ = "category"
-#
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(50))
-#     user_id = Column(Integer, ForeignKey('user.id'))
-#     users = relationship("User", back_populates='category')
-#     media = relationship("Media", back_populates="category")
-
-
 class Media(Base):
     __tablename__ = "media"
 
@@ -47,7 +37,6 @@ class Movie(Base):
     id_imdb = Column(Integer)
     product_company_name = Column(Text)
     media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
-    # media = relationship("Media", backref="movie", uselist=False)
     __mapper_args__ = {
         'polymorphic_identity': 'movie'
     }
@@ -61,7 +50,6 @@ class Song(Base):
     disk_name = Column(Text)
     duration = Column(Float)
     media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
-    # media = relationship("Media", back_populates="song")
     __mapper_args__ = {
         'polymorphic_identity': 'song'
     }
@@ -77,7 +65,6 @@ class Game(Base):
     game_category = Column(Text)
     est_playable_minutes = Column(Float)
     media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
-    # media = relationship("Media", back_populates="game")
     __mapper_args__ = {
         'polymorphic_identity': 'game'
     }
