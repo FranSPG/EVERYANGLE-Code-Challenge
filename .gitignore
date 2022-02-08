@@ -127,3 +127,18 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/.idea/.gitignore
+/media_library/.idea/.gitignore
+/media_library/.idea/dataSources.xml
+/.idea/EVERYANGLE-Code-Challenge.iml
+/media_library/.idea/media_library.iml
+/.idea/misc.xml
+/media_library/.idea/misc.xml
+/media_library/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/media_library/.idea/vcs.xml
+/.idea/vcs.xml
+/media_library/.idea/inspectionProfiles/Project_Default.xml
+/media_library/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/modules.xml
