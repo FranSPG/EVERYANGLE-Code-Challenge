@@ -5,6 +5,10 @@ from media_library.user.model import User
 from media_library.auth.jwt import get_current_user
 
 
+async def get_media_by_id(media_id, database) -> model.Media:
+    return database.query(model.Media).filter(model.Media.id == int(media_id)).first()
+
+
 async def delete_media(form, database):
     media_id = form.get('media_id')
     media = database.query(model.Media).filter(model.Media.id == media_id).delete()
@@ -88,3 +92,13 @@ async def get_all_games(database, current_user) -> List[model.Game]:
     media_ids = [media_id[0] for media_id in media_ids]
     games = database.query(model.Game).filter(model.Game.media_id.in_(media_ids)).all()
     return games
+
+
+async def update_media(form, database):
+    media = database.query(model.Media).filter(model.Media.id == form.get('media_id'))
+    data_to_update = form.__dict__['_dict']
+    data_to_update['id'] = data_to_update['media_id']
+    data_to_update.pop('media_id')
+    data_to_update['adult'] = bool(data_to_update['adult'])
+    media.update(data_to_update)
+    database.commit()

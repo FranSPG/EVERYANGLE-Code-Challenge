@@ -1,4 +1,5 @@
 from typing import List
+from ast import literal_eval
 
 from fastapi import APIRouter, Depends, status, HTTPException, Request
 from sqlalchemy.orm import Session
@@ -23,21 +24,41 @@ templates = Jinja2Templates(directory="static/templates")
 router.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-# @router.post('/update_media')
-# async def delete_media_get(request: Request, database: Session = Depends(db.get_db)):
-#     token = request.cookies.get("access_token")
-#     current_user: User = get_current_user(token)
-#     form = await request.form()
-#     await service.delete_media(form, database)
-#     resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
-#     return resp
-#
-#
-# @router.get('/update_media')
-# async def delete_media_get(request: Request):
-#     return templates.TemplateResponse("media/delete_media.html",
-#                                       {"request": request})
+@router.post('/update_media')
+async def update_media(request: Request, database: Session = Depends(db.get_db)):
+    form = await request.form()
+    await service.update_media(form, database)
+    resp = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
+    return resp
 
+
+@router.get('/update_media')
+async def update_media(request: Request):
+    data = literal_eval(request.cookies.get('data'))
+    return templates.TemplateResponse("media/update_media.html",
+                                      {"request": data})
+
+
+@router.post('/update_media_get_id')
+async def update_media_get_id(request: Request, database: Session = Depends(db.get_db)):
+    token = request.cookies.get("access_token")
+    current_user: User = get_current_user(token)
+    form = await request.form()
+    media = await service.get_media_by_id(form.get('media_id'), database)
+    resp = RedirectResponse(url='/media/update_media', status_code=status.HTTP_302_FOUND)
+    resp.delete_cookie('data')
+    media.__dict__.pop("_sa_instance_state")
+    media.__dict__.pop("added_date")
+    media.__dict__.pop("created_date")
+    media.__dict__['media_id'] = form.get('media_id')
+    resp.set_cookie("data", media.__dict__)
+    return resp
+
+
+@router.get('/update_media_get_id')
+async def update_media_get(request: Request):
+    return templates.TemplateResponse("media/update_media_get_id.html",
+                                      {"request": request})
 
 
 @router.post('/delete_media')
