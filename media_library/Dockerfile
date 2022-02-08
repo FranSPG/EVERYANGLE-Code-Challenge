@@ -20,6 +20,3 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-
-#RUN alembic upgrade head
-#RUN alembic revision --autogenerate
