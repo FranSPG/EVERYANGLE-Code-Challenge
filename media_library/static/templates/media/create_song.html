@@ -4,19 +4,23 @@
 {% block media_type %}
 
 <div class="mb-3">
+    <label>Category name:</label>
     <input type="text" required placeholder="music" name="category_name" value="{{category_name}}"
            class="form-control" disabled>
 </div>
 
 <div class="mb-3">
+    <label>Band name:</label>
     <input type="text" required placeholder="Band name" name="band_name" value="{{band_name}}"
            class="form-control" >
 </div>
 <div class="mb-3">
+    <label>Disk name:</label>
     <input type="text" required placeholder="Disk name" name="disk_name" value="{{disk_name}}"
            class="form-control" >
 </div>
 <div class="mb-3">
+    <label>Duration in seconds:</label>
     <input type="number" required placeholder="Duration in seconds" name="duration" value="{{duration}}"
            class="form-control" >
 </div>
