@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13.4
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=fran
+      - POSTGRES_PASSWORD=fran
+      - POSTGRES_DB=media_library
+
+  web:
+    build: .
+    command: bash -c "alembic upgrade head && alembic revision --autogenerate && uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
