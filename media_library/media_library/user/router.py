@@ -4,10 +4,10 @@ from fastapi import APIRouter, Depends, status, Response, HTTPException
 from sqlalchemy.orm import Session
 
 from media_library import db
-# from media_library.auth.jwt import get_current_user
 from . import schema
 from . import service
 from . import validator
+from media_library.auth.jwt import get_current_user
 
 router = APIRouter(
     tags=['Users'],
@@ -29,18 +29,18 @@ async def create_user_registration(request: schema.User, database: Session = Dep
 
 
 @router.get('/', response_model=List[schema.DisplayUser])
-async def get_all_users(database: Session = Depends(db.get_db)):
-    # current_user: schema.User = Depends(get_current_user)):
+async def get_all_users(database: Session = Depends(db.get_db),
+                        current_user: schema.User = Depends(get_current_user)):
     return await service.all_users(database)
 
 
 @router.get('/{user_id}', response_model=schema.DisplayUser)
-async def get_user_by_id(user_id: int, database: Session = Depends(db.get_db)):
-    # current_user: schema.User = Depends(get_current_user)):
+async def get_user_by_id(user_id: int, database: Session = Depends(db.get_db),
+                         current_user: schema.User = Depends(get_current_user)):
     return await service.get_user_by_id(user_id, database)
 
 
 @router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
-async def delete_user_by_id(user_id: int, database: Session = Depends(db.get_db)):
-    # current_user: schema.User = Depends(get_current_user)):
+async def delete_user_by_id(user_id: int, database: Session = Depends(db.get_db),
+                            current_user: schema.User = Depends(get_current_user)):
     return await service.delete_user_by_id(user_id, database)

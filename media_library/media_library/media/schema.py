@@ -7,10 +7,6 @@ from typing import Optional
 from pydantic import BaseModel, constr
 
 
-class Category(BaseModel):
-    name: constr(min_length=2, max_length=50)
-
-
 class ListCategory(BaseModel):
     id: int
     name: str
@@ -28,8 +24,7 @@ class MediaBase(BaseModel):
     estimated_budget: float
     adult: bool
     original_language: str
-    # category_name: str
-    category_id: int
+    category_name: str
 
     class Config:
         orm_mode = True
@@ -65,9 +60,3 @@ class Game(BaseModel):
 
     class Config:
         orm_mode = True
-
-# class MediaListing(BaseModel):
-#     category: ListCategory
-#
-#     class Config:
-#         orm_mode = True

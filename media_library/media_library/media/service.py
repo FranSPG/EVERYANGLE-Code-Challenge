@@ -3,47 +3,25 @@ from typing import List
 from fastapi import HTTPException, status
 
 from . import model
+from media_library.user.model import User
+from media_library.media.validator import verify_category_exist
 
 
-async def create_new_category(request, database) -> model.Category:
-    new_category = model.Category(name=request.name)
-    database.add(new_category)
-    database.commit()
-    database.refresh(new_category)
-    return new_category
-
-
-async def get_all_categories(database) -> List[model.Category]:
-    categories = database.query(model.Category).all()
-    return categories
-
-
-async def get_category_by_id(category_id, database) -> model.Category:
-    category_info = database.query(model.Category).get(category_id)
-    if not category_info:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Data Not Found !")
-    return category_info
-
-
-async def delete_category_by_id(category_id, database):
-    database.query(model.Category).filter(model.Category.id == category_id).delete()
-    database.commit()
-
-
-async def create_new_media(request, category_id, database) -> model.Media:
+async def create_new_media(request, database, current_user) -> model.Media:
+    user = database.query(User).filter(User.email == current_user.email).first()
     new_media = model.Media(name=request.media.name, created_date=request.media.created_date,
                             added_date=request.media.added_date, description=request.media.description,
                             genre=request.media.genre, estimated_budget=request.media.estimated_budget,
                             adult=request.media.adult, original_language=request.media.original_language,
-                            category_id=category_id)
+                            category_name=request.media.category_name, user_id=user.id)
     database.add(new_media)
     database.commit()
     database.refresh(new_media)
     return new_media
 
 
-async def create_new_movie(request, category_id, database) -> model.Movie:
-    new_media = await create_new_media(request, category_id, database)
+async def create_new_movie(request, database, current_user) -> model.Movie:
+    new_media = await create_new_media(request, database, current_user)
     new_movie = model.Movie(
         main_actors=request.main_actors, id_imdb=request.id_imdb,
         product_company_name=request.product_company_name, media_id=new_media.id
@@ -54,8 +32,8 @@ async def create_new_movie(request, category_id, database) -> model.Movie:
     return new_movie
 
 
-async def create_new_song(request, category_id, database) -> model.Song:
-    new_media = await create_new_media(request, category_id, database)
+async def create_new_song(request, database, current_user) -> model.Song:
+    new_media = await create_new_media(request, database, current_user)
     new_song = model.Song(
         band_name=request.band_name, disk_name=request.disk_name,
         duration=request.duration,
@@ -66,8 +44,8 @@ async def create_new_song(request, category_id, database) -> model.Song:
     return new_song
 
 
-async def create_new_game(request, category_id, database) -> model.Game:
-    new_media = await create_new_media(request, category_id, database)
+async def create_new_game(request, database, current_user) -> model.Game:
+    new_media = await create_new_media(request, database, current_user)
     new_game = model.Game(
         platform=request.platform, publisher=request.publisher,
         is_free=request.is_free, game_category=request.game_category,
@@ -79,16 +57,29 @@ async def create_new_game(request, category_id, database) -> model.Game:
     return new_game
 
 
-async def get_all_movies(database) -> List[model.Movie]:
-    movies = database.query(model.Movie).all()
+async def get_user(database, current_user) -> User:
+    return database.query(User).filter(User.email == current_user.email).first()
+
+
+async def get_all_movies(database, current_user) -> List[model.Movie]:
+    user = await get_user(database, current_user)
+    media_ids = database.query(model.Media.id).filter(model.Media.user_id == user.id).all()
+    media_ids = [media_id[0] for media_id in media_ids]
+    movies = database.query(model.Movie).filter(model.Movie.media_id.in_(media_ids)).all()
     return movies
 
 
-async def get_all_songs(database) -> List[model.Song]:
-    songs = database.query(model.Song).all()
+async def get_all_songs(database, current_user) -> List[model.Song]:
+    user = await get_user(database, current_user)
+    media_ids = database.query(model.Media.id).filter(model.Media.user_id == user.id).all()
+    media_ids = [media_id[0] for media_id in media_ids]
+    songs = database.query(model.Song).filter(model.Song.media_id.in_(media_ids)).all()
     return songs
 
 
-async def get_all_games(database) -> List[model.Game]:
-    games = database.query(model.Game).all()
+async def get_all_games(database, current_user) -> List[model.Game]:
+    user = await get_user(database, current_user)
+    media_ids = database.query(model.Media.id).filter(model.Media.user_id == user.id).all()
+    media_ids = [media_id[0] for media_id in media_ids]
+    games = database.query(model.Game).filter(model.Game.media_id.in_(media_ids)).all()
     return games

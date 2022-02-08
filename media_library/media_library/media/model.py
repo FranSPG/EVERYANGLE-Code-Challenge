@@ -6,13 +6,14 @@ from sqlalchemy.orm import relationship
 from media_library.db import Base
 
 
-class Category(Base):
-    __tablename__ = "category"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(50))
-
-    media = relationship("Media", back_populates="category")
+# class Category(Base):
+#     __tablename__ = "category"
+#
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     name = Column(String(50))
+#     user_id = Column(Integer, ForeignKey('user.id'))
+#     users = relationship("User", back_populates='category')
+#     media = relationship("Media", back_populates="category")
 
 
 class Media(Base):
@@ -27,11 +28,12 @@ class Media(Base):
     estimated_budget = Column(Float)
     adult = Column(Boolean)
     original_language = Column(Text)
-    category_id = Column(Integer, ForeignKey('category.id'))
-    category = relationship("Category", back_populates="media")
-    movie = relationship('Movie', back_populates='media')
-    song = relationship('Song', back_populates='media')
-    game = relationship('Game', back_populates='media')
+    category_name = Column(Text)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete="CASCADE"))
+    user = relationship('User', backref='media_user', uselist=False)
+    movie = relationship('Movie', backref='media', uselist=False)
+    song = relationship('Song', backref='media', uselist=False)
+    game = relationship('Game', backref='media', uselist=False)
     __mapper_args__ = {
         'polymorphic_identity': 'media'
     }
@@ -44,8 +46,8 @@ class Movie(Base):
     main_actors = Column(Text)
     id_imdb = Column(Integer)
     product_company_name = Column(Text)
-    media_id = Column(Integer, ForeignKey('media.id'))
-    media = relationship("Media", back_populates="movie")
+    media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
+    # media = relationship("Media", backref="movie", uselist=False)
     __mapper_args__ = {
         'polymorphic_identity': 'movie'
     }
@@ -58,8 +60,8 @@ class Song(Base):
     band_name = Column(Text)
     disk_name = Column(Text)
     duration = Column(Float)
-    media_id = Column(Integer, ForeignKey('media.id'))
-    media = relationship("Media", back_populates="song")
+    media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
+    # media = relationship("Media", back_populates="song")
     __mapper_args__ = {
         'polymorphic_identity': 'song'
     }
@@ -74,8 +76,8 @@ class Game(Base):
     is_free = Column(Boolean)
     game_category = Column(Text)
     est_playable_minutes = Column(Float)
-    media_id = Column(Integer, ForeignKey('media.id'))
-    media = relationship("Media", back_populates="game")
+    media_id = Column(Integer, ForeignKey('media.id', ondelete="CASCADE"))
+    # media = relationship("Media", back_populates="game")
     __mapper_args__ = {
         'polymorphic_identity': 'game'
     }
